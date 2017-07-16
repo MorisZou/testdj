@@ -3,6 +3,7 @@ from connect import Connect
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 import time
+import re
 
 
 def search(request):
@@ -10,6 +11,11 @@ def search(request):
 
 def result(request):
    key=request.GET['q']
+   p=re.compile(r'select')
+   if key=='':
+       return render_to_response('search.html',{'error':True})
+   if not (p.search(key)):
+       return render_to_response('search.html',{'error1':True})
    result_conn1=Connect()
    result_cur=result_conn1.connectdb()
    result_cur01=result_cur.cursor()

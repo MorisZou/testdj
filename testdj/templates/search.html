@@ -3,7 +3,13 @@
     <title>Search</title>
 </head>
 <body>
-    <form action="/search/" method="get">
+    {% if error %}
+        <p style="color: red;">Please submit a search term.</p>
+    {% endif %}
+    {% if error1 %}
+        <p style="color: red;">Your input is no good</p>
+    {% endif %}
+   <form action="/search/" method="get">
         <input type="text" name="q" rows="10" cols="30"></br>
         <input type="submit" value="Commit to Database">
         <input type="reset"  value="Reset">
