@@ -9,8 +9,9 @@
     {% if error1 %}
         <p style="color: red;">Your input is no good</p>
     {% endif %}
-   <form action="/search/" method="get">
-        <input type="text" name="q" rows="10" cols="30"></br>
+   <form action="/result/" method="post">
+        {% csrf_token %}
+         <p>Message: <textarea name="m1" rows="10" cols="50"></textarea></p>
         <input type="submit" value="Commit to Database">
         <input type="reset"  value="Reset">
     </form>

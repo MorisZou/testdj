@@ -1,6 +1,7 @@
 
 from connect import Connect
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 import time
 import re
@@ -10,7 +11,7 @@ def search(request):
    return render_to_response('search.html')
 
 def result(request):
-   key=request.GET['q']
+   key=request.POST['m1']
    p=re.compile(r'select')
    if key=='':
        return render_to_response('search.html',{'error':True})
@@ -26,6 +27,7 @@ def result(request):
       result_count.append(row.values())
       columnname=row.keys()
    return render_to_response('result.html',{'columnname':columnname,'message':result_count})
+
 
 def hello(request):
    conn1=Connect()

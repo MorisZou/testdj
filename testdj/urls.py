@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
      url(r'^currenttime/(\d{1,2})/$', view.currenttime),
     url(r'^$', view.search),
-    url(r'^search/$', view.result),
+    url(r'^result/$', view.result),
 ]
