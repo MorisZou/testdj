@@ -25,4 +25,5 @@ urlpatterns = [
      url(r'^currenttime/(\d{1,2})/$', view.currenttime),
     url(r'^$', view.search),
     url(r'^result/$', view.result),
+   # (r'^about/(\w+)/$', about_pages),#
 ]

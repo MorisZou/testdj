@@ -47,8 +47,15 @@ def currenttime(request,offset):
  
    return HttpResponse(time.strftime("%b %d %Y %H:%M:%S"))
 
-
-
+def about_pages(request,page):
+   
+   try: 
+ 
+     return direct_to_template(request, template="about/%s.html" % page)
+   
+   except TemplateDoesNotExist:
+   
+      raise Http404()
 
 
 
