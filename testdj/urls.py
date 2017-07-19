@@ -23,7 +23,9 @@ from . import view
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
      url(r'^currenttime/(\d{1,2})/$', view.currenttime),
-    url(r'^$', view.search),
+    url(r'^login/$', view.login),
+     url(r'^search/$', view.search),
+     url(r'^login_view/$', view.login_view),
     url(r'^result/$', view.result),
-   # (r'^about/(\w+)/$', about_pages),#
+   # url(r'^image/$', view.data_image),
 ]

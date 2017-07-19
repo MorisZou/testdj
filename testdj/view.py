@@ -1,10 +1,13 @@
 
+from django.contrib import auth
 from connect import Connect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 import time
 import re
+import csv
+from  reportlab.pdfgen import canvas
 
 
 def search(request):
@@ -57,10 +60,21 @@ def about_pages(request,page):
    
       raise Http404()
 
+def login(request):
+
+    return render_to_response('login.html')
 
 
-
-
+def login_view(request):
+       
+      username=request.POST.get('username','')
+      password=request.POST.get('password','')
+      user = auth.authenticate(username=username, password=password)    
+      if user is not None:
+          
+          return HttpResponseRedirect('/search/')
+      else:
+          return HttpResponse(password)
 
 
 
