@@ -24,45 +24,57 @@
 </head>
 <body>
     {% if error %}
-        <p style="color: red;">Please submit a search term.</p>
+        <p style="color: red;">Please submit a valid SQLTEXT.</p>
     {% endif %}
     {% if error1 %}
-        <p style="color: red;">Your input is no good</p>
+        <p style="color: red;">Your input is no good!</p>
     {% endif %}
  
    {% if dberrormsg %}
         <p style="color: red;">{{dberrormsg}}</p>
     {% endif %}
-
-
+  
    <form role="form" action="/result/" method="post">
         {% csrf_token %}
+       <div class="col-sm-offset-1 col-sm-10">
         <div class="form-group">
-        <label for="name">DB HOST  </label>
-         <select label="dbhost" name="dbchoice" >
-      <option value="192.168.56.118">192.168.56.118(mysql)</option>
-      <option value="172.30.16.136">172.30.16.136(oracle)</option>
-
-      </select>
-     </div>
-        <div class="form-group">
-         <p>Message: <textarea name="m1" rows="10" cols="50"></textarea></p>
-         </div/
-        <div class="form-group"> 
-       <input type="submit" value="Commit to Database">
-        <input type="reset"  value="Reset">
+         <label for="name">DB HOST:  </label>
+          <select label="dbhost" name="dbchoice" >
+           <option value="192.168.56.118">192.168.56.118(mysql)</option>
+           <option value="172.30.16.136">172.30.16.136(oracle)</option>
+           </select>
+        </div>
          </div>
-    </form>
+ 
+        <div class="col-sm-offset-2 col-sm-10">
+        <div class="form-group">
+         <p>Message: <textarea name="m1" rows="10" cols="80"></textarea></p>
+         </div>
+        </div>
+       <div class="col-sm-offset-3 col-sm-10">
+        <div class="form-group"> 
+        <button type="submit" value="Execution Query" class="btn btn-success">
+             {%  bootstrap_icon "OK" %} Execution Query
+          </button>
+        <button  type="reset"  value="Input Reset" class="btn btn-warning">
+            {%  bootstrap_icon "trash" %} Input Reset
+         </div>
+        </div>     
+      </form>
+  
+    <div class="form-group">
+        <form action="/logout/" method="post">
+             {% csrf_token %}
+               {% buttons %}
+                <button type="submit" value="logout" class="btn btn-danger">
+                {% bootstrap_icon "remove" %} Logout
+               </button>
+              {% endbuttons %}
+              </form>
+      </div>
 
-  <form action="/logout/" method="post">
-        {% csrf_token %}
-        {% buttons %}
-     <button type="submit" value="logout" class="btn btn-primary">
-      {% bootstrap_icon "remove" %} Logout
-    </button>
-    {% endbuttons %}
- </form>
 
+ 
  {{dberror}}
 
 </body>
