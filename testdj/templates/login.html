@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<meta charset="utf-8">  
+<meta http-equiv="X-UA-Compatible" content="IE=edge">  
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+
+{% load i18n %}
+{% load bootstrap3 %}
+{% load bootstrap_toolkit %}
+
+{% block content %}
+
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+<body>
+  <div class="container">
+  <div class="well">
+  <div class="row">
+    <h1>
+     <p class="text-center">
+                       Database Query System
+     </p>
+   </h1>
+  </row>
+  </div>
+  </div>
+  <form role="form" class="form-horizontal" action="/login_view/" method="post">
+           {% csrf_token %}
+            {{ form|as_bootstrap:"horizontal"}} 
+     <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-10">
+     <label for="username">User name:</label>
+
+    <input type="text"   name="username" value="" id="username">
+   <label >Password:</label>
+  
+    <input type="password" name="password" value="">
+   </div> 
+   </div>
+  <div class="col-sm-offset-5 col-sm-10">
+     <br>
+     <br>
+  {% buttons %}
+    <button type="submit" value="login" class="btn btn-primary">
+      {% bootstrap_icon "ok" %} Login
+   </button>
+  </div>
+ 
+    {% endbuttons %}
+  </p>
+  </form>
+
+ {% if error %}
+   <h3>
+    <p class="text-center text-danger">Sorry, that's not a valid username or password</p>
+   </h3>
+   {% endif %}
+
+  {% if logout %}
+    <h3>
+    <p class="text-center text-info">
+      
+      You have logout sucessfully!!!
+   </p>
+   </h3>
+  {% endif %}
+
+{% endblock %}
+<div>
+</body>
+</html>

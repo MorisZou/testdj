@@ -1,0 +1,47 @@
+
+
+
+<!DOCTYPE html>  
+{% load bootstrap_toolkit %}  
+{% url '/root/0712/testdj/testdj/bootstrap_toolkit/static/datepicker/css/datepicker.css' %}
+<html lang="en">  
+<head>  
+    <meta charset="utf-8">  
+    <title>dbsystem</title>  
+    <meta name="description" content="">  
+    {% bootstrap_stylesheet_tag %}  
+    {% bootstrap_stylesheet_tag "responsive" %}  
+    <style type="text/css">  
+        body {  
+            padding-top: 60px;  
+        }  
+    </style>  
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>  
+    {% bootstrap_javascript_tag %}  
+    {% block extra_head %}{% endblock %}  
+</head>  
+  
+<body>  
+  
+    {% if password_is_wrong %}  
+        <div class="alert alert-error">  
+            <button type="button" class="close" data-dismiss="alert"></button>  
+            <h4>error</h4>userorpwd errro  
+        </div>  
+    {% endif %}      
+    <div class="well">  
+        <h1>dbsystem</h1>  
+        <p> </p>  
+        <form class="form-horizontal" action="" method="post">  
+            {% csrf_token %}  
+            {{ form }}  
+            <p class="form-actions">  
+                <input type="submit" value="login" class="btn btn-primary">  
+                <a href="/contactme/"><input type="button" value="forget" class="btn btn-danger"></a>  
+                <a href="/contactme/"><input type="button" value="new staff" class="btn btn-success"></a>  
+            </p>  
+        </form>  
+    </div>  
+  
+</body>  
+</html>  
