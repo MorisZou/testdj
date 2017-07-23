@@ -22,10 +22,9 @@ from . import view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-     url(r'^currenttime/(\d{1,2})/$', view.currenttime),
-    url(r'^login/$', view.login),
-     url(r'^search/$', view.search),
+    url(r'^loging/$', view.loging),
+    url(r'^search/$', view.search),
      url(r'^login_view/$', view.login_view),
     url(r'^result/$', view.result),
-   # url(r'^image/$', view.data_image),
+   url(r'^logout/$', view.logout),
 ]

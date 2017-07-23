@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'testdj',
+    'bootstrap3',
+    'django_bootstrap_toolkit',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+TEMPLATE_STRING_IF_INVALID=''
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+     'formatters': {
+       '': {
+            'testdj': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}  
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/root/debug.log',
+        },
+    },
+    'loggers': {
+        'testdj': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
