@@ -22,21 +22,11 @@
 <head>
     <title>Search</title>
 </head>
-<body>
-    {% if error %}
-        <p style="color: red;">Please submit a valid SQLTEXT.</p>
-    {% endif %}
-    {% if error1 %}
-        <p style="color: red;">Your input is no good!</p>
-    {% endif %}
- 
-   {% if dberrormsg %}
-        <p style="color: red;">{{dberrormsg}}</p>
-    {% endif %}
+<body> 
   
    <form role="form" action="/result/" method="post">
         {% csrf_token %}
-       <div class="col-sm-offset-1 col-sm-10">
+       <div class="col-sm-offset-0 col-sm-10">
         <div class="form-group">
          <label for="name">DB HOST:  </label>
           <select label="dbhost" name="dbchoice" >
@@ -73,9 +63,23 @@
               </form>
       </div>
 
+ <div class="col-sm-offset-2 col-sm-10">
+  {% if dberrormsg %}
+        <p style="color: red;"><br><br><br><br>DB ERROR  : {{dberrormsg}}</p>
+    {% endif %}
+  {% ifequal error 'notValidSelect' %}
+        <p style="color: red;">Please input a valid SQL(SELECT ONLY)!</p>
+    {% endifequal %}
 
+   {% ifequal error 'NULL' %}
+        <p style="color: red;">Input is NULL!</p>
+    {% endifequal %}
+
+   {% ifequal error 'forUpdate' %}
+        <p style="color: red;">Error,why do you want 'select * for update?'!</p>
+    {% endifequal %}
+ </div>
  
- {{dberror}}
 
 </body>
 {% endblock content %}

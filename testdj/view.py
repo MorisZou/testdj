@@ -25,11 +25,15 @@ def result(request):
    logger=logging.getLogger('testdj')
    key=request.POST.get('m1')
    dbchoice1=request.POST.get('dbchoice')
-   p=re.compile(r'select')
+   p=re.compile(r'^select')
    if key=='':
-       return render_to_response('search.html',{'error':True})
+       return render_to_response('search.html',{'error':'NULL'})
    if not (p.search(key)):
-       return render_to_response('search.html',{'error1':True})
+       return render_to_response('search.html',{'error':'notValidSelect'})
+
+   if re.compile(r'for update').search(key):
+       return render_to_response('search.html',{'error':'forUpdate'})
+
    logger.warning('SQL: '+key+' DB EXEUTION:'+dbchoice1+' USER: '+request.user.username+request.META['REMOTE_ADDR'])
    db_connect=Connect(host=dbchoice1,sqltext1=key)   
    result_count=db_connect.connectexec()
