@@ -40,27 +40,27 @@
     <input type="password" name="password" value="">
    </div> 
    </div>
-  <div class="col-sm-offset-5 col-sm-10">
      <br>
      <br>
-  {% buttons %}
+   {% buttons %}
+     <div class="col-sm-offset-5 col-sm-10">  
     <button type="submit" value="login" class="btn  btn-primary">
       {% bootstrap_icon "log-in" %} Login
-  </div> 
-    {% endbuttons %}
+    </button>
+   {% endbuttons %}
+   </div>
   </p>
   </form>
-   <div class="col-sm-offset-10 col-sm-10">
+    <div class="col-sm-offset-10 col-sm-10">
         <form role="from" action="/help/" method="post">
              {% csrf_token %}
-                {% buttons %}
+             {% buttons %}
                 <button type="submit" value="Help" class="btn btn-info">
                 {% bootstrap_icon "question-sign" %} Help
                </button>
-              {% endbuttons %}
-              </form>
-   </div>
-
+             {% endbuttons %}
+      </div>
+         </form>
 
  {% if error %}
    <h3>

@@ -28,7 +28,7 @@
         {% csrf_token %}
        <div class="col-sm-offset-0 col-sm-10">
         <div class="form-group">
-         <label for="name">DB HOST:  </label>
+         <h4><span class="label label-default">DB HOST : </span> </h4>
           <select label="dbhost" name="dbchoice" >
            <option value="192.168.56.118">192.168.56.118(mysql)</option>
            <option value="172.30.16.136">172.30.16.136(oracle)</option>
@@ -38,7 +38,7 @@
  
         <div class="col-sm-offset-2 col-sm-10">
         <div class="form-group">
-         <p>Message: <textarea name="m1" rows="10" cols="80"></textarea></p>
+         <p><h3>SQL TEXT :</h3> <textarea name="m1" rows="10" cols="80"></textarea></p>
          </div>
         </div>
        <div class="col-sm-offset-3 col-sm-10">
@@ -62,24 +62,24 @@
               {% endbuttons %}
               </form>
       </div>
-
- <div class="col-sm-offset-2 col-sm-10">
-  {% if dberrormsg %}
-        <p style="color: red;"><br><br><br><br>DB ERROR  : {{dberrormsg}}</p>
-    {% endif %}
-  {% ifequal error 'notValidSelect' %}
-        <p style="color: red;">Please input a valid SQL(SELECT ONLY)!</p>
-    {% endifequal %}
-
-   {% ifequal error 'NULL' %}
-        <p style="color: red;">Input is NULL!</p>
-    {% endifequal %}
+ <div class="col-sm-offset-2  col-sm-4">
 
    {% ifequal error 'forUpdate' %}
-        <p style="color: red;">Error,why do you want 'select * for update?'!</p>
+       <div class="alert alert-danger"> <p><br><br>WARNING ,DO NOT USE 'select XXX for update'!!!</p> </div>
     {% endifequal %}
- </div>
- 
+    {% if dberrormsg %}
+        <div class="alert alert-danger"> <p><br><br> <p><br><br>DB ERROR  : {{dberrormsg}}</p></div>
+    {% endif %}
+
+  {% ifequal error 'notValidSelect' %}
+        <div class="alert alert-danger"> <p><br><br> <p><br><br>Please input a valid SQL(SELECT ONLY)!</p></div>
+    {% endifequal %}
+
+
+  {% ifequal error 'NULL' %}
+        <div class="alert alert-danger"> <p><br><br> <p><br><br>Input is NULL!</p></div>
+    {% endifequal %}    
+    </div>
 
 </body>
 {% endblock content %}
