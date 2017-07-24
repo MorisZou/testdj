@@ -8,7 +8,6 @@
 
 {% load i18n %}
 {% load bootstrap3 %}
-{% load bootstrap_toolkit %}
 
 {% block content %}
 
@@ -23,7 +22,7 @@
   <div class="row">
     <h1>
      <p class="text-center">
-                       数据库查询平台
+                       Database Query System
      </p>
    </h1>
   </row>
@@ -31,7 +30,6 @@
   </div>
   <form role="form" class="form-horizontal" action="/login_view/" method="post">
            {% csrf_token %}
-            {{ form|as_bootstrap:"horizontal"}} 
      <div class="form-group">
     <div class="col-sm-offset-3 col-sm-10">
      <label for="username">User name:</label>
@@ -46,14 +44,23 @@
      <br>
      <br>
   {% buttons %}
-    <button type="submit" value="login" class="btn btn-primary">
-      {% bootstrap_icon "ok" %} Login
-   </button>
-  </div>
- 
+    <button type="submit" value="login" class="btn  btn-primary">
+      {% bootstrap_icon "log-in" %} Login
+  </div> 
     {% endbuttons %}
   </p>
   </form>
+   <div class="col-sm-offset-10 col-sm-10">
+        <form role="from" action="/help/" method="post">
+             {% csrf_token %}
+                {% buttons %}
+                <button type="submit" value="Help" class="btn btn-info">
+                {% bootstrap_icon "question-sign" %} Help
+               </button>
+              {% endbuttons %}
+              </form>
+   </div>
+
 
  {% if error %}
    <h3>
@@ -71,6 +78,5 @@
   {% endif %}
 
 {% endblock %}
-<div>
 </body>
 </html>

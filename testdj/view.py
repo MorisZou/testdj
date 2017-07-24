@@ -67,4 +67,6 @@ def login_view(request):
           return render_to_response('login.html',{'error':True})
 
 
-
+def help(request):
+  
+    return render_to_response('help.html')
