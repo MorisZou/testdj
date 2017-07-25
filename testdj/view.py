@@ -8,10 +8,16 @@ import time
 import re
 import csv
 from  reportlab.pdfgen import canvas
+import base64
+import os
+import sys
+
 
 from testdj.models import user
 
 import logging
+
+sqlgtext=''
 
 def search(request):
    if request.user.is_authenticated():     
@@ -23,6 +29,7 @@ def search(request):
 def result(request):
  
    logger=logging.getLogger('testdj')
+   
    key=request.POST.get('m1')
    dbchoice1=request.POST.get('dbchoice')
    p=re.compile(r'^select')
@@ -35,15 +42,27 @@ def result(request):
        return render_to_response('search.html',{'error':'forUpdate'})
 
    logger.warning('SQL: '+key+' DB EXEUTION:'+dbchoice1+' USER: '+request.user.username+request.META['REMOTE_ADDR'])
-   db_connect=Connect(host=dbchoice1,sqltext1=key)   
-   result_count=db_connect.connectexec()
+   db_connect=Connect(host=dbchoice1,sqltext1=key)
+   
+   (result_desc,messages,page_counts)=db_connect.connectexec()
    p2=re.compile(r'ORA-')
-   if  (p2.search(str(result_count))):
-           return render_to_response('search.html',{'dberrormsg':result_count})
-   else: 
-     return render_to_response('result.html',{'messages':result_count,'result_conn':dbchoice1})
- 
-
+   if  (p2.search(str(messages))):
+           return render_to_response('search.html',{'dberrormsg':result_desc})  
+   else:
+     open('/tmp/1.txt','w+').write(key)
+     return render_to_response('result.html',{'key':base64.encodestring(key),'messages':messages,'page_counts':page_counts,'result_descs':result_desc,'result_conn':dbchoice1})
+   #return HttpResponse(key)
+   
+def query_page(request):
+   #sql=request.GET.get('sql')
+   page_id=request.GET.get('page_id')
+    
+   sqltext=open('/tmp/1.txt','r').read()
+   
+   db_connect=Connect(host='172.30.16.136',sqltext1=sqltext)
+   (result_desc,messages,page_counts)=db_connect.connectexec(page_id=int(page_id))
+   return render_to_response('result.html',{'key':base64.encodestring(sqltext),'messages':messages,'page_counts':page_counts,'result_descs':result_desc})
+  
 
 
 def loging(request):

@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^result/$', view.result),
    url(r'^logout/$', view.logout),
    url(r'^help/$',view.help),
+   url(r'^query_page/$', view.query_page),
 ]
