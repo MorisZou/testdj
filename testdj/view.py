@@ -1,5 +1,6 @@
 
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from connect import Connect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -45,25 +46,69 @@ def result(request):
    db_connect=Connect(host=dbchoice1,sqltext1=key)
    
    (result_desc,messages,page_counts)=db_connect.connectexec()
+  
    p2=re.compile(r'ORA-')
    if  (p2.search(str(messages))):
-           return render_to_response('search.html',{'dberrormsg':result_desc})  
+           return render_to_response('search.html',{'dberrormsg':messages})  
    else:
-     open('/tmp/1.txt','w+').write(key)
-     return render_to_response('result.html',{'key':base64.encodestring(key),'messages':messages,'page_counts':page_counts,'result_descs':result_desc,'result_conn':dbchoice1})
-   #return HttpResponse(key)
-   
+      open('/tmp/1.txt','w+').write(key)
+      if  re.compile(r'v\$').search(key) or re.compile(r'V\$').search(key) or re.compile(r'dba_\$').search(key) or re.compile(r'DBA_\$').search(key):
+       cols=[]
+       rows=[]
+       for row in messages:
+        for col in row:
+         cols.append(str(col).decode('utf-8', 'ignore'))
+        rows.append(cols)
+       messages=rows 
+       return render_to_response('result.html',{'dbchoice1':base64.encodestring(dbchoice1),'messages':messages,'page_counts':page_counts,'result_descs':result_desc})
+      else:
+        return render_to_response('result.html',{'dbchoice1':base64.encodestring(dbchoice1),'messages':messages,'page_counts':page_counts,'result_descs':result_desc}) 
+
+
+
+@login_required(login_url='/loging/')   
 def query_page(request):
-   #sql=request.GET.get('sql')
+   dbchoice1=base64.decodestring(request.GET.get('dbchoice1'))
    page_id=request.GET.get('page_id')
     
    sqltext=open('/tmp/1.txt','r').read()
    
-   db_connect=Connect(host='172.30.16.136',sqltext1=sqltext)
+   db_connect=Connect(host=dbchoice1,sqltext1=sqltext)
    (result_desc,messages,page_counts)=db_connect.connectexec(page_id=int(page_id))
-   return render_to_response('result.html',{'key':base64.encodestring(sqltext),'messages':messages,'page_counts':page_counts,'result_descs':result_desc})
+
+   if  re.compile(r'v\$').search(sqltext) or re.compile(r'V\$').search(sqltext) or re.compile(r'dba_\$').search(sqltext) or re.compile(r'DBA_\$').search(sqltext):
+       cols=[]
+       rows=[]
+       for row in messages:
+        for col in row:
+         cols.append(str(col).decode('utf-8', 'ignore'))
+        rows.append(cols)
+       messages=rows
+       return render_to_response('result.html',{'dbchoice1':base64.encodestring(dbchoice1),'messages':messages,'page_counts':page_counts,'result_descs':result_desc})
+   else: 
+     return render_to_response('result.html',{'dbchoice1':base64.encodestring(dbchoice1),'messages':messages,'page_counts':page_counts,'result_descs':result_desc})
   
 
+@login_required(login_url='/loging/')
+def changepwd(request):
+       return render_to_response('changepwd.html')
+
+@login_required(login_url='/loging/')
+def changepwdok(request):
+
+      username=request.POST.get('username','')
+      password=request.POST.get('oldpassword','')
+      newpassword=request.POST.get('newpassword','')
+      if len(newpassword)==0 or len(newpassword)<=8:
+          return render_to_response('changepwd.html',{'pwdnullorshor':True})
+      user = auth.authenticate(username=username, password=password)
+      if user is not None and user.is_active:
+        auth.login(request,user)
+        user.set_password(newpassword)  
+        user.save()  
+        return render_to_response('login.html',{'changepwdok':True})
+      else:
+        return render_to_response('changepwd.html',{'changepwdokerror':True}) 
 
 def loging(request):
     
@@ -84,7 +129,6 @@ def login_view(request):
           return HttpResponseRedirect("/search/")
       else:
           return render_to_response('login.html',{'error':True})
-
 
 def help(request):
   

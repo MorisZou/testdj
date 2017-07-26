@@ -51,18 +51,29 @@
          </div>
         </div>     
       </form>
-  
-    <div class="form-group">
-        <form action="/logout/" method="post">
+             <div class="col-sm-offset-10 col-sm-12">
+                <form  action="/changepwd/" method="post">
              {% csrf_token %}
+               {% buttons %}
+                <button type="submit" value="changepwd" class="btn btn-info">
+                {% bootstrap_icon "cog" %} <h8>ChgPWD</h8>
+               </button>
+              {% endbuttons %}
+              </form>
+          </div>
+
+             <div class="col-sm-offset-10 col-sm-12">
+               <form action="/logout/" method="post">
+                {% csrf_token %}
                {% buttons %}
                 <button type="submit" value="logout" class="btn btn-danger">
                 {% bootstrap_icon "remove" %} Logout
                </button>
               {% endbuttons %}
               </form>
-      </div>
- <div class="col-sm-offset-2  col-sm-4">
+            </div>
+
+   <div class="col-sm-offset-2  col-sm-4">
 
    {% ifequal error 'forUpdate' %}
        <div class="alert alert-danger"> <p><br><br>WARNING ,DO NOT USE 'select XXX for update'!!!</p> </div>

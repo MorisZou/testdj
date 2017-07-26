@@ -29,4 +29,6 @@ urlpatterns = [
    url(r'^logout/$', view.logout),
    url(r'^help/$',view.help),
    url(r'^query_page/$', view.query_page),
+   url(r'^changepwd/$', view.changepwd),
+   url(r'^changepwdok/$', view.changepwdok)
 ]
